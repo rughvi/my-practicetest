@@ -6,7 +6,8 @@ const initialState = {
     currentQuestion:{
         currentQuestionNumber:0,
         question:'',
-        answers:{first:'', second:'', third:'', fourth:''}
+        answers:{first:'', second:'', third:'', fourth:''},
+        time:0
     }
 }
 
@@ -44,6 +45,7 @@ getCurrentQuestion = (level, questionNumber) => {
     }
 
     var question = '';
+    var time = 0;
     var answers = {
         first:'',
         second:'',
@@ -53,13 +55,15 @@ getCurrentQuestion = (level, questionNumber) => {
 
     if(questions.length >= questionNumber-1){
         question = questions[questionNumber-1].question;
+        time = questions[questionNumber-1].time;
         answers = questions[questionNumber-1].answers;
     }
     
     return {
         currentQuestionNumber : questionNumber,
         question:question,
-        answers:answers
+        answers:answers,
+        time:time
     }
 }
 
@@ -67,6 +71,12 @@ getTotalQuestions = (level) =>{
     switch(level){
         case levels.level0:
             return questionsEasy.length;
+            break;
+        case levels.level1:
+            return questionsMedium.length;
+            break;
+        case levels.level2:
+            return questionsHard.length;
             break;
             default:
                 return 0;

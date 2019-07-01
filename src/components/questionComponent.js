@@ -1,33 +1,52 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {getQuestion} from '../actions/questionsActions';
+import {initialiseAnswers,answerForQuestion} from '../actions/answersActions';
 import circularProgress from './circularProgressComponent';
 import CircularProgress from './circularProgressComponent';
 
 class QuestionComponent extends Component{
     componentDidMount(){
+        this.props.initialiseAnswers();
         this.props.getQuestion(1);
     }
-    perent = 100;
-    remaining = 60;
-    percentChange = 1.66; //(100 / 60)
-    componentWillReceiveProps(){
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.currentQuestion.currentQuestionNumber <= 0){
+            return;
+        }
+        this.startTimer(nextProps.currentQuestion.time)
+    }
+
+    startTimer(time){
         this.percent = 100;
-        this.remaining = 60;
+        this.remaining = time;
+        this.percentChange = (this.percent / this.remaining);
         this.intervalId = setInterval(() => {
             this.percent -= 1 * this.percentChange;
             this.remaining -= 1;
             if(this.percent >= 0){
                 this.setState({percent:this.percent, remaining:this.remaining});
             }else{
+                this.setState({percent:0, remaining:0});
                 clearInterval(this.intervalId);
+                this.getNextQuestion();
             }
         }, 1000);
     }
 
     state = {
         percent:0
+    }
+
+    getNextQuestion(){
+        if(this.props.currentQuestion.currentQuestionNumber < this.props.totalQuestions){
+            this.props.getQuestion(this.props.currentQuestion.currentQuestionNumber + 1);
+        }
+        else {
+            //show end screen
+        }
     }
 
     render(){
@@ -37,16 +56,15 @@ class QuestionComponent extends Component{
                     <Text style={{fontWeight:'bold', fontSize:20}}>{this.props.currentQuestion.currentQuestionNumber} of {this.props.totalQuestions}</Text>
                     <Text style={{fontSize:15, fontStyle:'italic', color:'#88d1f1'}}>{this.props.currentLevel}</Text>                    
                 </View>
-                <Text style={styles.question}>{this.props.currentQuestion.question}</Text>
+                <Text style={styles.question} onChangeText={(text) => startTimer()}>{this.props.currentQuestion.question}</Text>
                 <View style={styles.answers}>
-                    <Text style={[styles.answer]}> abc1</Text>
-                    <Text style={[styles.answer]}> abc2</Text>
-                    <Text style={[styles.answer]}> abc3</Text>
-                    <Text style={[styles.answer]}> abc4</Text>
-                    {/* <Text style={[styles.answer, styles.answer1]}>{this.props.currentQuestion.answers.first}</Text>
-                    <Text style={[styles.answer, styles.answer2]}>{this.props.currentQuestion.answers.second}</Text>
-                    <Text style={[styles.answer, styles.answer3]}>{this.props.currentQuestion.answers.third}</Text>
-                    <Text style={[styles.answer, styles.answer4]}>{this.props.currentQuestion.answers.fourth}</Text> */}
+                    <TouchableOpacity>
+                        <Text style={[styles.answer]}> {this.props.currentQuestion.answers.first}</Text>
+                    </TouchableOpacity>
+                    
+                    <Text style={[styles.answer]}> {this.props.currentQuestion.answers.second}</Text>
+                    <Text style={[styles.answer]}> {this.props.currentQuestion.answers.third}</Text>
+                    <Text style={[styles.answer]}> {this.props.currentQuestion.answers.fourth}</Text>
                 </View>
                 <View style={styles.footer}>
                     <CircularProgress percent={this.state.percent} remaining={this.state.remaining} style={styles.progress}/>
@@ -141,7 +159,9 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        getQuestion:(questionNumber) => {dispatch(getQuestion(questionNumber))}
+        getQuestion:(questionNumber) => {dispatch(getQuestion(questionNumber))},
+        initialiseAnswers: () => {dispatch(initialiseAnswers())},
+        setAnswer:(questionNumber, answerIndex) => {dispatch(answerForQuestion(questionNumber, answerIndex))}
     }
 }
 
