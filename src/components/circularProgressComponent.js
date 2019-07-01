@@ -19,7 +19,7 @@ renderThirdLayer = (percent) => {
       **/
       return <View style={[styles.secondProgressLayer,propStyle((percent - 50), 45) ]}></View>
     }else{
-      return <View style={styles.offsetLayer}></View>
+      return <View style={[styles.offsetLayer]}></View>
     }
   }
 
@@ -31,7 +31,20 @@ renderThirdLayer = (percent) => {
       if(percent > 50){
         firstProgressLayerStyle = propStyle(50, -135);
       }else {
+        progressColor='#3498db';
+        if(percent <= 25){
+          progressColor = '#ff3d00';
+        }
+        else if(percent <= 50) {
+          progressColor = '#ff7f00';
+        }
         firstProgressLayerStyle = propStyle(percent, -135);
+
+        firstProgressLayerStyle = {
+          ...firstProgressLayerStyle,
+          borderRightColor: progressColor,
+          borderTopColor: progressColor
+        }
       }
     
       return(
