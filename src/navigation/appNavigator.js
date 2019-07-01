@@ -1,6 +1,7 @@
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import MainComponent from '../components/mainComponent';
 import QuestionComponent from '../components/questionComponent';
+import ResultsComponent from '../components/resultsComponent';
 
 const MainNavigator = createSwitchNavigator({
     Main: {
@@ -8,7 +9,10 @@ const MainNavigator = createSwitchNavigator({
     },
     Question:{
         screen : QuestionComponent
-    }    
+    },
+    Results:{
+        screen:ResultsComponent
+    }
 });
 
 

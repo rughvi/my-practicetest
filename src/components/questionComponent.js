@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {getQuestion} from '../actions/questionsActions';
 import {initialiseAnswers,answerForQuestion} from '../actions/answersActions';
-import circularProgress from './circularProgressComponent';
 import CircularProgress from './circularProgressComponent';
 
 class QuestionComponent extends Component{
@@ -37,16 +36,23 @@ class QuestionComponent extends Component{
     }
 
     state = {
-        percent:0
+        percent:0,
+        selectedAnswer:0
     }
 
     getNextQuestion(){
+        this.setState({percent:0, selectedAnswer:0});
         if(this.props.currentQuestion.currentQuestionNumber < this.props.totalQuestions){
             this.props.getQuestion(this.props.currentQuestion.currentQuestionNumber + 1);
         }
         else {
-            //show end screen
+            this.props.navigation.navigate('Results');
         }
+    }
+
+    onSelectedAnswer(answer){
+        this.setState({selectedAnswer:answer}); 
+        this.props.setAnswer(this.props.currentQuestion.currentQuestionNumber, answer)
     }
 
     render(){
@@ -58,13 +64,19 @@ class QuestionComponent extends Component{
                 </View>
                 <Text style={styles.question} onChangeText={(text) => startTimer()}>{this.props.currentQuestion.question}</Text>
                 <View style={styles.answers}>
-                    <TouchableOpacity>
-                        <Text style={[styles.answer]}> {this.props.currentQuestion.answers.first}</Text>
+                    <TouchableOpacity onPress={() => this.onSelectedAnswer(1)}>
+                        <Text style={this.state.selectedAnswer == 1?[styles.answer, styles.selectedAnswer]:styles.answer}> {this.props.currentQuestion.answers.first}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.onSelectedAnswer(2)}>
+                        <Text style={this.state.selectedAnswer == 2?[styles.answer, styles.selectedAnswer]:styles.answer}> {this.props.currentQuestion.answers.second}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.onSelectedAnswer(3)}>
+                        <Text style={this.state.selectedAnswer == 3?[styles.answer, styles.selectedAnswer]:styles.answer}> {this.props.currentQuestion.answers.third}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.onSelectedAnswer(4)}>
+                        <Text style={this.state.selectedAnswer == 4?[styles.answer, styles.selectedAnswer]:styles.answer}> {this.props.currentQuestion.answers.fourth}</Text>
                     </TouchableOpacity>
                     
-                    <Text style={[styles.answer]}> {this.props.currentQuestion.answers.second}</Text>
-                    <Text style={[styles.answer]}> {this.props.currentQuestion.answers.third}</Text>
-                    <Text style={[styles.answer]}> {this.props.currentQuestion.answers.fourth}</Text>
                 </View>
                 <View style={styles.footer}>
                     <CircularProgress percent={this.state.percent} remaining={this.state.remaining} style={styles.progress}/>
@@ -114,6 +126,9 @@ const styles = StyleSheet.create({
         borderWidth:1,
         padding:10,
         fontSize:20
+    },
+    selectedAnswer:{
+        backgroundColor:'#88d1f1'
     },
     answer1:{
         position:'absolute',

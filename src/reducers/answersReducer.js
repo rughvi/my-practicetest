@@ -16,7 +16,7 @@ export default answersReducer = (state = initialState, action) => {
             state = {...state, answers:answers};
             break;
         case 'answerForQuestion':
-            answer = state.answers[action.index];
+            answer = state.answers[action.index-1];
             answer.actual = action.value;
             break;
         default:
