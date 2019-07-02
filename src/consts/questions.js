@@ -22,6 +22,18 @@ export const questionsEasy = [
             fourth:'answer 5'
         },
         expected:1
+    },
+    {
+        index:3,
+        time:15,
+        question:'This is question 3 from easy category and pick one answer from below. How is it?',
+        answers:{
+            first:'answer 3',
+            second:'answer 4',
+            third:'answer 5',
+            fourth:'answer 6'
+        },
+        expected:2
     }
 ]
 
@@ -37,6 +49,18 @@ export const questionsMedium = [
             fourth:'answer 4'
         },
         expected:2,
+    },
+    {
+        index:2,
+        time:10,
+        question:'This is question 2 from medium category and pick one answer from below. How is it?',
+        answers:{
+            first:'answer 2',
+            second:'answer 3',
+            third:'answer 4',
+            fourth:'answer 5'
+        },
+        expected:1,
     }
 ]
 
@@ -52,5 +76,29 @@ export const questionsHard = [
             fourth:'answer 4'
         },
         expected:4
+    },
+    {
+        index:2,
+        time:5,
+        question:'This is question 2 from hard category and pick one answer from below. How is it?',
+        answers:{
+            first:'answer 2',
+            second:'answer 3',
+            third:'answer 4',
+            fourth:'answer 5'
+        },
+        expected:1
+    },
+    {
+        index:3,
+        time:5,
+        question:'This is question 3 from hard category and pick one answer from below. How is it?',
+        answers:{
+            first:'answer 3',
+            second:'answer 4',
+            third:'answer 5',
+            fourth:'answer 6'
+        },
+        expected:3
     }
 ]

@@ -1,20 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
 import {getQuestion} from '../actions/questionsActions';
 import {initialiseAnswers,answerForQuestion} from '../actions/answersActions';
 import CircularProgress from './circularProgressComponent';
 
 class QuestionComponent extends Component{
+    constructor(props){
+        super(props)
+        this.fadeAnimation = new Animated.Value(1);
+    }
+
     componentDidMount(){
         this.props.initialiseAnswers();
-        this.props.getQuestion(1);
+        this.props.getQuestion(1);        
     }
 
     componentWillReceiveProps(nextProps){
         if(nextProps.currentQuestion.currentQuestionNumber <= 0){
             return;
         }
+        this.fadeAnimation = new Animated.Value(1);
         this.startTimer(nextProps.currentQuestion.time)
     }
 
@@ -43,7 +49,13 @@ class QuestionComponent extends Component{
     getNextQuestion(){
         this.setState({percent:0, selectedAnswer:0});
         if(this.props.currentQuestion.currentQuestionNumber < this.props.totalQuestions){
-            this.props.getQuestion(this.props.currentQuestion.currentQuestionNumber + 1);
+            Animated.timing(this.fadeAnimation, {
+                toValue: 0,
+                duration: 1000,
+                useNativeDriver: true,      
+              }).start(() => {
+                this.props.getQuestion(this.props.currentQuestion.currentQuestionNumber + 1);
+              })
         }
         else {
             this.props.navigation.navigate('Results');
@@ -57,7 +69,7 @@ class QuestionComponent extends Component{
 
     render(){
         return(
-            <View style={styles.root}>
+            <Animated.View style={[styles.root, {transform:[{ scale: this.fadeAnimation }]}]}>
                 <View style={styles.header}>                    
                     <Text style={{fontWeight:'bold', fontSize:20}}>{this.props.currentQuestion.currentQuestionNumber} of {this.props.totalQuestions}</Text>
                     <Text style={{fontSize:15, fontStyle:'italic', color:'#88d1f1'}}>{this.props.currentLevel}</Text>                    
@@ -81,7 +93,7 @@ class QuestionComponent extends Component{
                 <View style={styles.footer}>
                     <CircularProgress percent={this.state.percent} remaining={this.state.remaining} style={styles.progress} w={50} h={50}/>
                 </View>
-            </View>
+            </Animated.View>
         )
     }
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {View, Text, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import {connect} from 'react-redux';
 
 class SubmitComponent extends Component{
@@ -7,11 +7,14 @@ class SubmitComponent extends Component{
         return(
             <View style={styles.root}>
                 <Text style={[styles.fieldLabel, {alignSelf:'center'}]}>Your Details</Text>
+                <Text style={{textAlign:'center'}}>Please provide your details below</Text>                
                 <Text style={styles.fieldLabel}>Name</Text>
                 <TextInput keyboardType='name-phone-pad' placeholder='Enter your name' style={styles.textInput}></TextInput>
                 <Text style={styles.fieldLabel}>Email</Text>
                 <TextInput keyboardType='email-address' placeholder='Email address' style={styles.textInput}></TextInput>
-                <Text style={styles.fieldLabel}>Signature</Text>
+                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Submit')}>
+                    <Text style={styles.buttonTitle}>Confirm</Text>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -35,6 +38,16 @@ const styles = StyleSheet.create({
         height:40,
         fontSize:18,
         marginBottom:20
+    },
+    button:{
+        alignItems:'center',
+        backgroundColor:'#027dff',
+        padding:10,
+        width:200,
+        margin:50
+    },
+    buttonTitle :{
+        fontSize:20
     }
 })
 
