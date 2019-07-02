@@ -20,15 +20,15 @@ class MainComponent extends Component{
                     <View>
                         <TouchableOpacity style={[styles.levelButton, (this.props.currentLevel ==levels.level0?styles.currentLevelButton: styles.levelButton)]}
                             onPress={() => this.props.changeLevel(levels.level0)}>
-                            <Text>{levels.level0}</Text>
+                            <Text style={styles.buttonTitle}>{levels.level0}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.levelButton, (this.props.currentLevel ==levels.level1?styles.currentLevelButton: styles.levelButton)]}
                             onPress={() => this.props.changeLevel(levels.level1)}>
-                            <Text>{levels.level1}</Text>
+                            <Text style={styles.buttonTitle}>{levels.level1}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.levelButton, (this.props.currentLevel ==levels.level2?styles.currentLevelButton: styles.levelButton)]}
                             onPress={() => this.props.changeLevel(levels.level2)}>
-                            <Text>{levels.level2}</Text>
+                            <Text style={styles.buttonTitle}>{levels.level2}</Text>
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.info}>You have to select answer before timer elapses for each question.</Text>
@@ -36,7 +36,7 @@ class MainComponent extends Component{
                     <Switch value={this.state.checked} onValueChange={() => this.setState({checked: !this.state.checked})}></Switch>
                     <TouchableOpacity style={this.state.checked?styles.button:[styles.button,styles.buttonInactive]}
                             onPress={() => { (this.state.checked == true) && this.props.navigation.navigate('Question')}}>
-                        <Text>START</Text>
+                        <Text style={styles.buttonTitle}>START</Text>
                     </TouchableOpacity>
                 </View>            
             }
@@ -70,6 +70,9 @@ const styles = StyleSheet.create({
     buttonInactive:{
         backgroundColor:'silver'
     },
+    buttonTitle :{
+        fontSize:20
+    },
     levelButton:{
         margin:20,
         width:200,
@@ -82,7 +85,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#88d1f1'
     },
     info:{
-        fontSize:15, 
+        fontSize:20, 
         fontWeight:'bold', 
         textAlign:'center',
         margin:10

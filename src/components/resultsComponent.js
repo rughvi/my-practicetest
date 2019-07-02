@@ -15,10 +15,11 @@ class ResultsComponent extends Component{
         percent = (answersCount * 100) / this.props.totalQuestions;
         return(
             <View style={styles.root}>
+                <Text style={styles.info}>You have finished your test now.</Text>
                 <Text style={styles.scoreDescription}>Your Score</Text>
                 <CircularProgress percent={percent} remaining={answersCount + '/' + this.props.totalQuestions} w={100} h={100} fs={25}/>
-                <TouchableOpacity style={styles.button}>
-                    <Text>Submit</Text>
+                <TouchableOpacity style={styles.button} onPress={() => this.props.navigation.navigate('Submit')}>
+                    <Text style={styles.buttonTitle}>Submit</Text>
                 </TouchableOpacity>
             </View>
         )
@@ -31,6 +32,10 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
+    info:{
+        fontSize : 18,
+        margin:50
+    },
     scoreDescription:{
         fontSize : 25,
         margin:50
@@ -41,6 +46,9 @@ const styles = StyleSheet.create({
         padding:10,
         width:200,
         margin:50
+    },
+    buttonTitle :{
+        fontSize:20
     }
 })
 

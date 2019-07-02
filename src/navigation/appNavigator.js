@@ -2,6 +2,7 @@ import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import MainComponent from '../components/mainComponent';
 import QuestionComponent from '../components/questionComponent';
 import ResultsComponent from '../components/resultsComponent';
+import SubmitComponent from '../components/submitComponent';
 
 const MainNavigator = createSwitchNavigator({
     Main: {
@@ -12,6 +13,9 @@ const MainNavigator = createSwitchNavigator({
     },
     Results:{
         screen:ResultsComponent
+    },
+    Submit:{
+        screen:SubmitComponent
     }
 });
 
