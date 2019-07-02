@@ -10,16 +10,17 @@ propStyle = (percent, base_degrees) => {
   };
 }
 
-renderThirdLayer = (percent) => {
+renderThirdLayer = (percent, w, h) => {
+    borderR = w / 2;
     if(percent > 50){
       /**
       * Third layer circle default is 45 degrees, so by default it occupies the right half semicircle.
       * Since first 50 percent is already taken care  by second layer circle, hence we subtract it
       * before passing to the propStyle function
       **/
-      return <View style={[styles.secondProgressLayer,propStyle((percent - 50), 45) ]}></View>
+      return <View style={[styles.secondProgressLayer,propStyle((percent - 50), 45), {width:w, height:h, borderRadius: borderR} ]}></View>
     }else{
-      return <View style={[styles.offsetLayer]}></View>
+      return <View style={[styles.offsetLayer, {width:w, height:h, borderRadius: borderR}]}></View>
     }
   }
 
@@ -46,32 +47,26 @@ renderThirdLayer = (percent) => {
           borderTopColor: progressColor
         }
       }
-    
+      borderR = this.props.w / 2;
       return(
-        <View style={styles.container}>
-          <View style={[styles.firstProgressLayer, firstProgressLayerStyle]}></View>
-          {renderThirdLayer(percent)}
-          <Text style={styles.display}>{remaining}</Text>
+        <View style={[styles.container, {width:this.props.w, height:this.props.h, borderRadius: borderR}]}>
+          <View style={[styles.firstProgressLayer, firstProgressLayerStyle, {width:this.props.w, height:this.props.h, borderRadius: borderR}]}></View>
+          {renderThirdLayer(percent, this.props.w, this.props.h)}
+          <Text style={[styles.display, {fontSize:this.props.fs}]}>{remaining}</Text>
         </View>
       );
     }    
   }
 
   const styles = StyleSheet.create({
-    container: {
-      width: 50,
-      height: 50,
+    container: {      
       borderWidth: 5,
-      borderRadius: 25,
       borderColor: 'grey',
       justifyContent: 'center',
       alignItems: 'center'
     },
     firstProgressLayer: {
-      width: 50,
-      height: 50,
       borderWidth: 5,
-      borderRadius: 25,
       position: 'absolute',
       borderLeftColor: 'transparent',
       borderBottomColor: 'transparent',
@@ -80,11 +75,8 @@ renderThirdLayer = (percent) => {
       transform:[{rotateZ: '-135deg'}]
     },
     secondProgressLayer:{
-      width: 50,
-      height: 50,
       position: 'absolute',
       borderWidth: 5,
-      borderRadius: 25,
       borderLeftColor: 'transparent',
       borderBottomColor: 'transparent',
       borderRightColor: '#3498db',
@@ -92,11 +84,8 @@ renderThirdLayer = (percent) => {
       transform: [{rotateZ: '45deg'}]
     },
     offsetLayer: {
-      width: 50,
-      height: 50,
       position: 'absolute',
       borderWidth: 5,
-      borderRadius: 25,
       borderLeftColor: 'transparent',
       borderBottomColor: 'transparent',
       borderRightColor: 'grey',

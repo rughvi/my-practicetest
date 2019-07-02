@@ -79,7 +79,7 @@ class QuestionComponent extends Component{
                     
                 </View>
                 <View style={styles.footer}>
-                    <CircularProgress percent={this.state.percent} remaining={this.state.remaining} style={styles.progress}/>
+                    <CircularProgress percent={this.state.percent} remaining={this.state.remaining} style={styles.progress} w={50} h={50}/>
                 </View>
             </View>
         )
@@ -160,7 +160,9 @@ const styles = StyleSheet.create({
     },
     progress:{
         position:'relative',
-        right:20
+        right:20,
+        width:50,
+        height:50
     }
 })
 

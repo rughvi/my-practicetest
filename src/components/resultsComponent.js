@@ -15,8 +15,8 @@ class ResultsComponent extends Component{
         percent = (answersCount * 100) / this.props.totalQuestions;
         return(
             <View style={styles.root}>
-                <Text style={styles.scoreDescription}>Your score :</Text>
-                <CircularProgress percent={percent} remaining={answersCount + '/' + this.props.totalQuestions}/>
+                <Text style={styles.scoreDescription}>Your Score</Text>
+                <CircularProgress percent={percent} remaining={answersCount + '/' + this.props.totalQuestions} w={100} h={100} fs={25}/>
                 <TouchableOpacity style={styles.button}>
                     <Text>Submit</Text>
                 </TouchableOpacity>
